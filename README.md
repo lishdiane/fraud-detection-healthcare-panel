@@ -7,3 +7,7 @@ Diane Lish
 Lievelyn Zapata
 
 Carlos Medina
+
+# How to run the application
+
+Run npm install and npm start from the backend folder in the terminal
