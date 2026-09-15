@@ -4,6 +4,11 @@
   "description": "Diane Lish \r “Rise and rise again until lambs become lions”\r ― Robin Hood",
   "main": "index.js",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,9 +25,14 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "nodemon": "^3.1.14"
+    "next": "^16.3.5",
+    "nodemon": "^3.1.14",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@types/node": "22.20.3",
+    "@types/react": "19.3.0",
     "typescript": "^7.0.2"
   }
 }
