@@ -10,4 +10,4 @@ Carlos Medina
 
 # How to run the application
 
-Run npm install and npm start from the backend folder in the terminal
+Run npm install and npm start from the main directory of the repository
