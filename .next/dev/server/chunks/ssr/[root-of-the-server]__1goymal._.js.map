@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///D:/SOFTWARE%20DEVELOPMENT/CSE%20499%20SENIOR%20PROJECT/fraud-detection-healthcare-panel/src/app/page.tsx"],"sourcesContent":["export default function Page() {\r\n  return <h1>Hello, Next.js!</h1>\r\n}"],"names":["Page"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBAAO,8OAAC;kBAAG;;;;;;AACb"}}]
-}
