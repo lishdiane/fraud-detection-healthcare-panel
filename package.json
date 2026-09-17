@@ -23,12 +23,14 @@
   },
   "homepage": "https://github.com/lishdiane/fraud-detection-healthcare-panel#readme",
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "next": "^16.3.5",
     "nodemon": "^3.1.14",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@types/node": "22.20.3",
