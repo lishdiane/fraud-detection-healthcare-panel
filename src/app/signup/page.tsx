@@ -72,9 +72,6 @@ export default function SignupPage() {
           <p className="text-center text-sm text-red-600">{state.error}</p>
         )}
 
-        {state.message && (
-          <p className="text-center text-sm text-gray-600">{state.message}</p>
-        )}
       </form>
     </main>
   );
