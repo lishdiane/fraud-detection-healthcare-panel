@@ -1,15 +1,13 @@
 "use server";
 
-import { findUser } from "../../lib/users";
+import { findUser, addUser} from "../../lib/users";
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "../../lib/sessions";
+import bcrypt from "bcrypt";
 
 export async function login(state: { error?: string; message?: string }, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
-
-  console.log("Email: ", email);
-  console.log("Password: ", password);
 
   if (
     typeof email !== "string" ||
@@ -17,13 +15,16 @@ export async function login(state: { error?: string; message?: string }, formDat
     !email ||
     !password
   ) {
-    return { error: "email and password are required" };
+    return { error: "Email and password are required." };
   }
 
   const data = await findUser(email);
 
   if (data) {
-    if (data.password === password) {
+
+    const passwordMatch = await bcrypt.compare(password, data.password);
+
+    if (passwordMatch) {
       await createSession(data.id)
       redirect("/dashboard")
     } else {
@@ -37,4 +38,32 @@ export async function login(state: { error?: string; message?: string }, formDat
 export async function logout() {
   await deleteSession();
   redirect("/login")
+}
+
+export async function signup(
+  state: { error?: string; message?: string },
+  formData: FormData,
+) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+   if (
+     typeof email !== "string" ||
+     typeof password !== "string" ||
+     !email ||
+     !password
+   ) {
+     return { error: "Email and password are required." };
+  }
+  
+  const data = await findUser(email);
+  
+  if (data) {
+    return {error: "An account with this email already exists."}
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  addUser(email, hashedPassword);
+  redirect("/login");
+
 }
