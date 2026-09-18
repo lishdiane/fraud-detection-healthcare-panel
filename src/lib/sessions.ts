@@ -11,7 +11,7 @@ export async function createSession(userId: number) {
 
 export async function getSession() {
   const cookieStore = await cookies();
-  console.log(cookieStore)
+  
   return cookieStore.get("session");
 }
 
