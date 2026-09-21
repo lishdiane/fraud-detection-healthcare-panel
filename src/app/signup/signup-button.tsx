@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 
-export function SubmitButton() {
+export function SignupButton() {
   const { pending } = useFormStatus();
 
   return (
@@ -11,7 +11,7 @@ export function SubmitButton() {
       disabled={pending}
       className="w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
     >
-      {pending ? "Logging in......" : "Log in"}
+      {pending ? "Signing up......" : "Sign Up"}
     </button>
   );
 }

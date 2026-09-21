@@ -1,5 +1,78 @@
+"use client";
+
+import { useActionState } from "react";
+import { signup } from "../actions/auth";
+import { SignupButton } from "./signup-button";
+
 export default function SignupPage() {
+  const [state, formAction] = useActionState(signup, {});
+
   return (
-    <div>Sign up</div>
-  )
+    <main className="flex min-h-screen items-center justify-center bg-gray-100">
+      <form
+        action={formAction}
+        className="w-full max-w-md space-y-6 rounded-lg bg-white p-8 shadow-md"
+      >
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
+          <p className="mt-2 text-gray-600">Please enter your details</p>
+        </div>
+
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-1 block text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            required
+            aria-label="email"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="password"
+            className="mb-1 block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            aria-label="password"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <SignupButton />
+
+        <p className="text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <a
+            href="/login"
+            className="font-medium text-blue-600 hover:underline"
+          >
+            Login
+          </a>
+        </p>
+
+        {state.error && (
+          <p className="text-center text-sm text-red-600">{state.error}</p>
+        )}
+
+      </form>
+    </main>
+  );
 }
