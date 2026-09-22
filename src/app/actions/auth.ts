@@ -1,8 +1,8 @@
 "use server";
 
-import { findUser, addUser} from "../../lib/users";
+import { findUser, addUser} from "../../lib/users/users";
 import { redirect } from "next/navigation";
-import { createSession, deleteSession } from "../../lib/sessions";
+import { createSession, deleteSession } from "../../lib/users/sessions";
 import bcrypt from "bcrypt";
 
 

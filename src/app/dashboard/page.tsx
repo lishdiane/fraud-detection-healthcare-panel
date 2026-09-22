@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getSession } from "../../lib/sessions";
-import { findUserById } from "../../lib/users";
+import { getSession } from "../../lib/users/sessions";
+import { findUserById } from "../../lib/users/users";
 import { logout } from "../actions/auth";
 
 export default async function DashboardPage() {
