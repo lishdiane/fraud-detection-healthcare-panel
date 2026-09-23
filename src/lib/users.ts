@@ -21,3 +21,8 @@ export async function findUserById(id: number) {
   }
   return null;
 }
+
+export async function addUser(email: string, password: string) {
+  users.push({ id: 3, email: email, password: password });
+
+}
