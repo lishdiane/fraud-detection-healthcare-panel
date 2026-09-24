@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/lishdiane/fraud-detection-healthcare-panel#readme",
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@tailwindcss/postcss": "^4.3.3",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
@@ -32,7 +33,8 @@
     "papaparse": "^5.7.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "vercel": "^59.26.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
