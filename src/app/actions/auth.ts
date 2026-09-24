@@ -23,10 +23,10 @@ export async function login(state: { error?: string, message?: string }, formDat
 
   if (data) {
 
-    const passwordMatch = await bcrypt.compare(password, data.password);
+    const passwordMatch = await bcrypt.compare(password, data.password_hash);
 
     if (passwordMatch) {
-      await createSession(data.id)
+      await createSession(data.user_id)
       redirect("/dashboard")
     } else {
       return {error: "Password is incorrect"}
@@ -45,16 +45,18 @@ export async function signup(
   state: {error?: string},
   formData: FormData,
 ) {
+  const name = formData.get("name");
   const email = formData.get("email");
   const password = formData.get("password");
 
-   if (
+  if (
+     typeof name != "string" ||
      typeof email !== "string" ||
      typeof password !== "string" ||
      !email ||
      !password
    ) {
-     return { error: "Email and password are required." };
+     return { error: "Full name, email, and password are required." };
   }
   
   const data = await findUser(email);
@@ -64,7 +66,7 @@ export async function signup(
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  addUser(email, hashedPassword);
+  await addUser(name, email, hashedPassword);
   redirect("/login");
 
 }

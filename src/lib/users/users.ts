@@ -1,28 +1,26 @@
-const users = [{ id: 1, email: "user@email.com", password: "password" }, {
- id: 2, email: "diane@email.com", password: "password1"
-}]
+import sql from "../database/db";
 
 export async function findUser(email: string) {
 
-  for (const user of users) {
-    if (user.email === email) {
-      return user;
-    }
-  }
-
-  return null;
+  const result = await sql`
+  SELECT * FROM users WHERE email = ${email}
+`;
+  return result[0] ?? null;
 }
 
 export async function findUserById(id: number) {
-  for (const user of users) {
-    if (user.id === id) {
-      return user;
-    }
-  }
-  return null;
+  const result = await sql`
+  SELECT * FROM users WHERE user_id = ${id}
+`
+  return result[0] ?? null;
 }
 
-export async function addUser(email: string, password: string) {
-  users.push({ id: 3, email: email, password: password });
+export async function addUser(name: string, email: string, password: string) {
+  const result = await sql`
+  INSERT INTO users (full_name, email, password_hash)
+  VALUES (${name}, ${email}, ${password})
+  RETURNING user_id, full_name, email
+  `;
 
+  return result[0];
 }
