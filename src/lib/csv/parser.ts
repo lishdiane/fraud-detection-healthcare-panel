@@ -2,6 +2,13 @@ import Papa from "papaparse";
 
 export type CSVRow = Record<string, string>;
 
+export type VerifiedCSVRow = {
+  [key: string]: string | boolean;
+  npiValid: boolean;
+  nameMatch: boolean;
+  specialtyMatch: boolean;
+};
+
 export type CSVParseResult = {
     data: CSVRow[];
     errors: string[];
