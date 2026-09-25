@@ -3,28 +3,33 @@ export async function verifyNpi(providerData): Promise<{
   nameMatch: boolean;
   specialtyMatch: boolean;
 }> {
-  const npiData = await fetchNpi(providerData.npi);
+  try {
+    const npiData = await fetchNpi(providerData.npi);
 
-  if (npiData.result_count === 0) {
+    if (npiData.result_count === 0) {
+      return {
+        npiValid: false,
+        nameMatch: false,
+        specialtyMatch: false,
+      };
+    }
+
+    const nameMatch = verifyName(providerData, npiData.results[0]);
+
+    const specialtyMatch = verifySpecialty(
+      providerData.specialty,
+      npiData.results[0],
+    );
+
     return {
-      npiValid: false,
-      nameMatch: false,
-      specialtyMatch: false,
+      npiValid: true,
+      nameMatch,
+      specialtyMatch,
     };
+  } catch (error) {
+    console.error("NPI verification failed:", error)
+    throw error;
   }
-
-  const nameMatch = verifyName(providerData, npiData.results[0]);
-
-  const specialtyMatch = verifySpecialty(
-    providerData.specialty,
-    npiData.results[0],
-  );
-
-  return {
-    npiValid: true,
-    nameMatch,
-    specialtyMatch,
-  };
 }
 
 export async function fetchNpi(npi: string) {
