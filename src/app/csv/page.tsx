@@ -1,11 +1,12 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { CSVRow, parseCSV } from "../../lib/csv/parser";
+import { CSVRow, VerifiedCSVRow, parseCSV } from "../../lib/csv/parser";
 import { validateCSVFile, validateCSVRows } from "../../lib/csv/validation";
+import { verifyProvider } from "../actions/verifyProvider";
 
 export default function CSVPage() {
-    const [rows, setRows] = useState<CSVRow[]>([]);
+    const [rows, setRows] = useState<VerifiedCSVRow[]>([]);
     const [errors, setErrors] = useState<string[]>([]);
     const [fileName, setFileName] = useState("");
 
@@ -41,7 +42,23 @@ export default function CSVPage() {
             setErrors(validationResult.errors);
             return;
         }
-        setRows(result.data);
+
+        const verifiedRows: VerifiedCSVRow[] = await Promise.all(
+            result.data.map(async (row) => {
+                const verification = await verifyProvider({
+                    first_name: row.first_name,
+                    last_name: row.last_name,
+                    npi: row.npi,
+                    specialty: row.specialty,
+                });
+
+                return {
+                    ...row,
+                    ...verification
+                }
+            })
+        )        
+        setRows(verifiedRows);
     }
 
     return (
@@ -137,7 +154,7 @@ export default function CSVPage() {
                                             <td
                                             key={column}
                                             className="border-b border-gray-100 px-4 py-3 text-gray-700">
-                                                {row[column]}
+                                                {String(row[column])}
                                             </td>
                                         ))}
                                     </tr>
