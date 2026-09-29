@@ -21,25 +21,26 @@ export async function login(
     return { error: "Email and password are required." };
   }
 
-  try {
-    const data = await findUser(email);
+try {
+  const data = await findUser(email);
 
-    if (data) {
-      const passwordMatch = await bcrypt.compare(password, data.password_hash);
-
-      if (passwordMatch) {
-        await createSession(data.user_id);
-        redirect("/dashboard");
-      } else {
-        return { error: "Password is incorrect" };
-      }
-    }
-  } catch (error) {
-    console.error("Login failed:", error);
-    return { error: "Unable to log in. Please try again later." };
+  if (!data) {
+    return { error: "Invalid email or password." };
   }
 
-  return { message: "Invalid email or password. " };
+  const passwordMatch = await bcrypt.compare(password, data.password_hash);
+
+  if (!passwordMatch) {
+    return { error: "Invalid email or password." };
+  }
+
+  await createSession(data.user_id);
+} catch (error) {
+  console.error("Login failed:", error);
+  return { error: "Unable to log in. Please try again later." };
+}
+
+redirect("/dashboard");
 }
 
 export async function logout() {
