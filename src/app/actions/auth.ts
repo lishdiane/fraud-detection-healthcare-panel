@@ -6,7 +6,7 @@ import { createSession, deleteSession } from "../../lib/users/sessions";
 import bcrypt from "bcrypt";
 
 export async function login(
-  state: { error?: string; message?: string },
+  state: { error?: string },
   formData: FormData,
 ) {
   const email = formData.get("email");
