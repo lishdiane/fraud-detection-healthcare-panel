@@ -17,6 +17,24 @@ export default function SignupPage() {
           <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
           <p className="mt-2 text-gray-600">Please enter your details</p>
         </div>
+        <div>
+          <label
+            htmlFor="name"
+            className="mb-1 block text-sm font-medium text-gray-700"
+          >
+            Full Name
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            required
+            aria-label="full name"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
 
         <div>
           <label
@@ -71,7 +89,6 @@ export default function SignupPage() {
         {state.error && (
           <p className="text-center text-sm text-red-600">{state.error}</p>
         )}
-
       </form>
     </main>
   );

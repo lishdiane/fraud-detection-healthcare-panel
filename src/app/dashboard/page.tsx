@@ -1,20 +1,9 @@
-import { redirect } from "next/navigation";
-import { getSession } from "../../lib/sessions";
-import { findUserById } from "../../lib/users";
 import { logout } from "../actions/auth";
+import requireAuth from "../../lib/users/requireAuth";
 
 export default async function DashboardPage() {
-  const session = await getSession();
 
-  if (!session) {
-    redirect("/login")
-  } 
-
-  const user = await findUserById(Number(session.value))
-
-  if (!user) {
-    redirect("/login")
-  }
+  const user = await requireAuth();
 
   return (
     <div>
