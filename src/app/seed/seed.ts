@@ -13,6 +13,17 @@ import {
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
+// Force dotenv to load .env from the project root
+const envPath = path.resolve(process.cwd(), '.env');
+dotenv.config({ path: envPath });
+
+console.log("Resolved .env Path:", envPath);
+console.log("Loaded DATABASE_URL:", process.env.DATABASE_URL);
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not defined in .env or .env.local");
+}
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
@@ -102,9 +113,10 @@ async function main() {
         INSERT INTO panelists (
           upload_id, reviewed_by_user_id, first_name, last_name, email,
           phone_number, npi_number, specialty, practice_name, street_address,
-          city, state, postal_code, ip_address, risk_score, risk_level, review_status
+          city, state, postal_code, ip_address, risk_score, risk_level, review_status,
+          ip_latitude, ip_longitude, distance_to_practice_miles, is_proxy_or_vpn
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, NULL, NULL, NULL, NULL)
         RETURNING panelist_id;
         `,
         [

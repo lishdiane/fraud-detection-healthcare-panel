@@ -43,6 +43,13 @@ export interface PanelistData {
   risk_score: number;
   risk_level: 'low' | 'medium' | 'high' | 'critical';
   review_status: 'pending' | 'reviewed' | 'approved' | 'fraudulent';
+  ip_latitude?: number;
+  ip_longitude?: number;
+  ip_city?: string;
+  ip_state?: string;
+  ip_country?: string;
+  is_proxy_or_vpn?: boolean;
+  distance_to_practice_miles?: number;
 }
 
 export interface PanelistFlagData {
