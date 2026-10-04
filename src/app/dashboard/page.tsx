@@ -1,5 +1,6 @@
 import { logout } from "../actions/auth";
 import requireAuth from "../../lib/users/requireAuth";
+import Navigation from "../ui/Navigation";  
 
 export default async function DashboardPage() {
 
@@ -7,10 +8,7 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1>Yay you have access!!! {user.email}</h1>
-      <form action={logout}>
-        <button type="submit">Log out</button>
-      </form>
+      <Navigation />
     </div>
   );
 
