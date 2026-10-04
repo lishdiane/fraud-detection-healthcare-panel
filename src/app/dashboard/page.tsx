@@ -1,8 +1,23 @@
 import requireAuth from "../../lib/users/requireAuth";
 import ModalTest from "../ui/ModalTest";
+import { getDashboardParticipants } from "../../lib/database/dashboardData";
 
 export default async function DashboardPage() {
   const user = await requireAuth();
+  const participants = await getDashboardParticipants();
+  const totalProviders = participants.length;
+
+  const lowRisk = participants.filter(
+    (participant) => participant.risk_level === "low"
+  ).length;
+
+  const mediumRisk = participants.filter(
+    (participant) => participant.risk_level === "medium"
+  ).length;
+
+  const highRisk = participants.filter(
+    (participant) => participant.risk_level === "high" || participant.risk_level === "critical"
+  ).length;
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -19,22 +34,22 @@ export default async function DashboardPage() {
       <div className="mb-8 grid gap-6 md:grid-cols-4">
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Total Providers</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">--</p>
+          <p className="mt-2 text-3xl font-bold text-slate-900">{totalProviders}</p>
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Low Risk</p>
-          <p className="mt-2 text-3xl font-bold text-green-600">--</p>
+          <p className="mt-2 text-3xl font-bold text-green-600">{lowRisk}</p>
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Medium Risk</p>
-          <p className="mt-2 text-3xl font-bold text-amber-500">--</p>
+          <p className="mt-2 text-3xl font-bold text-amber-500">{mediumRisk}</p>
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">High Risk</p>
-          <p className="mt-2 text-3xl font-bold text-red-500">--</p>
+          <p className="mt-2 text-3xl font-bold text-red-500">{highRisk}</p>
         </div>
       </div>
 
