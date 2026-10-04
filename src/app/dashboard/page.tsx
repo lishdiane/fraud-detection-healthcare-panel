@@ -1,4 +1,5 @@
 import requireAuth from "../../lib/users/requireAuth";
+import ModalTest from "../ui/ModalTest";
 
 export default async function DashboardPage() {
   const user = await requireAuth();
@@ -52,6 +53,7 @@ export default async function DashboardPage() {
           Provider records will display here.
         </div>
       </div>
+      <ModalTest />
     </div>
   );
 }
