@@ -3,7 +3,7 @@
 import { getSession } from "../../lib/users/sessions";
 import { saveParticipants } from "../../database/saveParticipants";
 
-export type ExcelUploadRow = {
+export type CSVUploadRow = {
     first_name: string;
     last_name: string;
     email: string;
@@ -15,13 +15,15 @@ export type ExcelUploadRow = {
     npi: string;
     specialty: string;
     ip_address: string;
-    test_case: string;
+    npiValid: boolean;
+    nameMatch: boolean;
+    specialtyMatch: boolean;
 };
 
-export async function uploadExcelData(rows:ExcelUploadRow[],
+export async function uploadCSVData(
+    rows: CSVUploadRow[],
     fileName: string
 ) {
-
     const session = await getSession();
 
     if (!session?.value) {
@@ -29,7 +31,7 @@ export async function uploadExcelData(rows:ExcelUploadRow[],
             success: false,
             uploadId: null,
             insertedCount: 0,
-            error: "You must be logged in to upload an Excel file.",
+            error: "You must be logged in to upload a CSV file.",
         };
     }
 
@@ -40,27 +42,12 @@ export async function uploadExcelData(rows:ExcelUploadRow[],
             success: false,
             uploadId: null,
             insertedCount: 0,
-            error: "The current user session is invalid.",
+            error: "The current user sessionis invalid.",
         };
     }
 
     return await saveParticipants(
-        rows.map((row) => ({
-            first_name: row.first_name,
-            last_name: row.last_name,
-            email: row.email,
-            phone: row.phone,
-            address: row.address,
-            city: row.city,
-            state: row.state,
-            zip: row.zip,
-            npi: row.npi,
-            specialty: row.specialty,
-            ip_address: row.ip_address,
-            npiValid: true,
-            nameMatch: true,
-            specialtyMatch: true,
-        })),
+        rows,
         fileName,
         userId
     );

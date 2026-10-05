@@ -3,10 +3,20 @@ import Papa from "papaparse";
 export type CSVRow = Record<string, string>;
 
 export type VerifiedCSVRow = {
-  [key: string]: string | boolean;
-  npiValid: boolean;
-  nameMatch: boolean;
-  specialtyMatch: boolean;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    npi: string;
+    specialty: string;
+    ip_address: string;
+    npiValid: boolean;
+    nameMatch: boolean;
+    specialtyMatch: boolean;
 };
 
 export type CSVParseResult = {

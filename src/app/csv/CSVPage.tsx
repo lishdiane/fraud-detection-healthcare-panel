@@ -1,15 +1,25 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { CSVRow, VerifiedCSVRow, parseCSV } from "../../lib/csv/parser";
+import { VerifiedCSVRow, parseCSV } from "../../lib/csv/parser";
 import { validateCSVFile, validateCSVRows } from "../../lib/csv/validation";
 import { verifyProvider } from "../actions/verifyProvider";
+import { uploadCSVData } from "../actions/uploadCSV";
 
 export default function CSVPage() {
 
     const [rows, setRows] = useState<VerifiedCSVRow[]>([]);
     const [errors, setErrors] = useState<string[]>([]);
     const [fileName, setFileName] = useState("");
+    
+    const visibleColumns = rows.length > 0
+    ? Object.keys(rows[0]).filter(
+        (column) =>
+            column !== "npiValid" &&
+            column !== "nameMatch" &&
+            column !== "specialtyMatch"
+    )
+    : [];
 
     async function handleFileUpload(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
@@ -45,21 +55,59 @@ export default function CSVPage() {
         }
 
         const verifiedRows: VerifiedCSVRow[] = await Promise.all(
-            result.data.map(async (row) => {
-                const verification = await verifyProvider({
-                    first_name: row.first_name,
-                    last_name: row.last_name,
-                    npi: row.npi,
-                    specialty: row.specialty,
+                    result.data.map(async (row): Promise<VerifiedCSVRow> => {
+                        const verification = await verifyProvider({
+                            first_name: row.first_name,
+                            last_name: row.last_name,
+                            npi: row.npi,
+                            specialty: row.specialty,
                 });
 
-                return {
-                    ...row,
-                    ...verification
-                }
+                    return {
+                        first_name: row.first_name,
+                        last_name: row.last_name,
+                        email: row.email,
+                        phone: row.phone,
+                        address: row.address,
+                        city: row.city,
+                        state: row.state,
+                        zip: row.zip,
+                        npi: row.npi,
+                        specialty: row.specialty,
+                        ip_address: row.ip_address,
+                        npiValid: verification.npiValid,
+                        nameMatch: verification.nameMatch,
+                        specialtyMatch: verification.specialtyMatch,
+                };
             })
-        )        
+        );
+
         setRows(verifiedRows);
+
+        const uploadResult = await uploadCSVData(
+            verifiedRows.map((row) => ({
+                first_name: row.first_name,
+                last_name: row.last_name,
+                email: row.email,
+                phone: row.phone,
+                address: row.address,
+                city: row.city,
+                state: row.state,
+                zip: row.zip,
+                npi: row.npi,
+                specialty: row.specialty,
+                ip_address: row.ip_address,
+                npiValid: row.npiValid,
+                nameMatch: row.nameMatch,
+                specialtyMatch: row.specialtyMatch,
+        })),
+            file.name
+        );
+
+        if (!uploadResult.success) {
+            setErrors([uploadResult.error ?? "The CSV couldn't be saved."]);
+            return;
+        }
     }
 
     return (
@@ -137,7 +185,7 @@ export default function CSVPage() {
                         <table className="min-w-full border-collapse bg-white text-sm">
                             <thead>
                                 <tr className="bg-gray-50">
-                                    {Object.keys(rows[0]).map((column) => (
+                                    {visibleColumns.map((column) => (
                                         <th
                                         key={column}
                                         className="border-b border-gray-200 px-4 py-3 text-left font-semibold text-gray-700">
@@ -151,7 +199,7 @@ export default function CSVPage() {
                             <tbody>
                                 {rows.map((row, rowIndex) => (
                                     <tr key={rowIndex} className="hover:bg-gray-50">
-                                        {Object.keys(rows[0]).map((column) => (
+                                        {visibleColumns.map((column) => (
                                             <td
                                             key={column}
                                             className="border-b border-gray-100 px-4 py-3 text-gray-700">
