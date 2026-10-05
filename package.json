@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/lishdiane/fraud-detection-healthcare-panel#readme",
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
+    "@neondatabase/serverless": "^1.2.0",
     "@tailwindcss/postcss": "^4.3.3",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",

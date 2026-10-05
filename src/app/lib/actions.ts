@@ -13,7 +13,7 @@ export async function updateReviewStatus(panelistId: number, status: string) {
             [status, panelistId]
         );
         // Revalidate cache to trigger an inmediate server re-render
-        revalidatePath('/');
+        revalidatePath('/dashboard');
     } catch (error) {
         console.error('Failed to update status:', error);
         throw new Error('Database update failed');

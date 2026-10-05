@@ -44,6 +44,7 @@ export const placeholderFraudRules: FraudRuleData[] = [
 export const placeholderPanelists: PanelistData[] = [
   // 1. Valid / Normal Panelists (Local IP matching practice region)
   {
+    panelist_id: 1,
     first_name: 'John',
     last_name: 'Doe',
     email: 'johndoe@example.com',
@@ -61,6 +62,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Sarah',
     last_name: 'Connor',
     email: 'sconnor@example.com',
@@ -78,6 +80,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Michael',
     last_name: 'Scott',
     email: 'mscott@example.com',
@@ -95,6 +98,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Emily',
     last_name: 'Watson',
     email: 'ewatson@example.com',
@@ -112,6 +116,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Robert',
     last_name: 'Chen',
     email: 'rchen@example.com',
@@ -131,6 +136,7 @@ export const placeholderPanelists: PanelistData[] = [
 
   // 2. Distance Mismatch (>300 miles via Haversine)
   {
+    panelist_id: 1,
     first_name: 'David',
     last_name: 'Miller',
     email: 'dmiller@example.com',
@@ -148,6 +154,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Jessica',
     last_name: 'Taylor',
     email: 'jtaylor@example.com',
@@ -165,6 +172,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'James',
     last_name: 'Wilson',
     email: 'jwilson@example.com',
@@ -182,6 +190,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Amanda',
     last_name: 'White',
     email: 'awhite@example.com',
@@ -199,6 +208,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Brian',
     last_name: 'Martinez',
     email: 'bmartinez@example.com',
@@ -218,6 +228,7 @@ export const placeholderPanelists: PanelistData[] = [
 
   // 3. Known Proxy / VPN / Tor Node IPs
   {
+    panelist_id: 1,
     first_name: 'Karen',
     last_name: 'Page',
     email: 'kpage@example.com',
@@ -235,6 +246,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Leonard',
     last_name: 'Hofstadter',
     email: 'lhofstadter@example.com',
@@ -252,6 +264,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Rachel',
     last_name: 'Green',
     email: 'rgreen@example.com',
@@ -269,6 +282,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Christopher',
     last_name: 'Moltisanti',
     email: 'cmoltisanti@example.com',
@@ -286,6 +300,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Pamela',
     last_name: 'Beesly',
     email: 'pbeesly@example.com',
@@ -305,6 +320,7 @@ export const placeholderPanelists: PanelistData[] = [
 
   // 4. Foreign Country IP Mismatch
   {
+    panelist_id: 1,
     first_name: 'Peter',
     last_name: 'Parker',
     email: 'pparker@example.com',
@@ -322,6 +338,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Bruce',
     last_name: 'Wayne',
     email: 'bwayne@example.com',
@@ -339,6 +356,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Clark',
     last_name: 'Kent',
     email: 'ckent@example.com',
@@ -356,6 +374,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Diana',
     last_name: 'Prince',
     email: 'dprince@example.com',
@@ -373,6 +392,7 @@ export const placeholderPanelists: PanelistData[] = [
     review_status: 'pending',
   },
   {
+    panelist_id: 1,
     first_name: 'Tony',
     last_name: 'Stark',
     email: 'tstark@example.com',
