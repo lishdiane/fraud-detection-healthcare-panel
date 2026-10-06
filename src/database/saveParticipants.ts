@@ -158,7 +158,7 @@ export async function saveParticipants(
     }
     
     if (!row.npiValid) {
-        triggeredRuleCodes.add("INVALID_NPI_FORMAT");
+        triggeredRuleCodes.add("NPI_INVALID");
     }
 
     if (!row.nameMatch) {
@@ -166,13 +166,13 @@ export async function saveParticipants(
     }
 
     if (!row.specialtyMatch) {
-        triggeredRuleCodes.add("SPECIALTY_INVALID");
+        triggeredRuleCodes.add("NPI_SPECIALTY_MISMATCH");
     }
 
-        const riskResult = await calculateRiskScore(
-            Array.from(triggeredRuleCodes),
-            client
-        );
+const riskResult = await calculateRiskScore(
+  Array.from(triggeredRuleCodes),
+  client,
+);
 
         for (const rule of riskResult.rules) {
         await client.query(
