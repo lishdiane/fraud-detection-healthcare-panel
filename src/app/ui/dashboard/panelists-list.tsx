@@ -69,9 +69,7 @@ export default async function PanelistList() {
                                         </div>
                                     </div>
                                     <div>
-                                        <FlagsModal 
-                                        panelistId={panelist.panelist_id} panelistName={`${panelist.first_name} ${panelist.last_name}`} 
-                                        />
+                                        <FlagsModal panelist={panelist} />
                                     </div>
                                 </div>
                              </div>
@@ -145,7 +143,7 @@ export default async function PanelistList() {
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         <FlagsModal 
-                                        panelistId={panelist.panelist_id} panelistName={`${panelist.first_name} ${panelist.last_name}`} 
+                                        panelist={panelist}
                                         />
                                     </td> 
                                 </tr>
