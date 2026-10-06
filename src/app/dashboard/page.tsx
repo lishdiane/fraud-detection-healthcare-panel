@@ -1,5 +1,4 @@
 import requireAuth from "../../lib/users/requireAuth";
-import ModalTest from "../ui/ModalTest";
 import { getDashboardParticipants } from "../../lib/database/dashboardData";
 import PanelistList from "../ui/dashboard/panelists-list"
 
@@ -65,12 +64,10 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        <PanelistList/>
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center text-gray-400">
-          Provider records will display here.
+        <PanelistList/>
         </div>
       </div>
-      <ModalTest />
     </div>
   );
 }
