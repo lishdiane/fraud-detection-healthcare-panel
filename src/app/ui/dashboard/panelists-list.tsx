@@ -3,8 +3,12 @@ import ReviewStatusSelect from "./ReviewStatusSelect";
 import FlagsModal from "./FlagsModal";
 
 
-export default async function PanelistList() {
-    const panelists = await fetchPanelists();
+export default async function PanelistList({
+    riskLevel,
+    }: {
+        riskLevel?: string;
+    }) {
+    const panelists = await fetchPanelists(riskLevel);
 
     return (
         <div className="mt-6 flow-root">

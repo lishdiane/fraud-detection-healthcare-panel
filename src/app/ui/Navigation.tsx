@@ -32,14 +32,14 @@ export default function Navigation() {
         </Link>
 
         <Link
-          href="/csv"
+          href="/upload"
           className={`rounded-lg px-4 py-3 text-sm font-medium transition ${
-            pathname === "/csv"
+            pathname === "/upload"
               ? "bg-blue-500/80 text-white"
               : "text-slate-200 hover:bg-slate-800 hover:text-white"
           }`}
         >
-          Upload CSV
+          Upload Files
         </Link>
       </nav>
 

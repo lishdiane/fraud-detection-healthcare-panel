@@ -122,11 +122,6 @@ export function validateExcelRows(rows:ExcelRow[]): ValidationResult {
     if (!row.ip_address || row.ip_address.trim() === "") {
     errors.push(`Row ${rowNumber}: IP Address is required.`);
     }
-
-    if (!row.test_case || row.test_case.trim() === "") {
-    errors.push(`Row ${rowNumber}: Test case is required.`);
-    }
-
 });
 
     return {
