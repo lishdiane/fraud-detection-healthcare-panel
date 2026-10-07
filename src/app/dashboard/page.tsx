@@ -1,22 +1,29 @@
 import requireAuth from "../../lib/users/requireAuth";
 import { getDashboardParticipants } from "../../lib/database/dashboardData";
 import PanelistList from "../ui/dashboard/panelists-list"
+import RiskLevelFilter from "../ui/dashboard/RiskLevelFilter";
 
-
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+  }: {
+    searchParams: Promise<{ risk?: string }>;
+  }) {
   const user = await requireAuth();
-  const participants = await getDashboardParticipants();
-  const totalProviders = participants.length;
+  const params = await searchParams;
+  const riskLevel = params.risk ?? "all";
+  const participants = await getDashboardParticipants(riskLevel);
+  const allParticipants = await getDashboardParticipants();
+  const totalProviders = allParticipants.length;
 
-  const lowRisk = participants.filter(
+  const lowRisk = allParticipants.filter(
     (participant) => participant.risk_level === "low"
   ).length;
 
-  const mediumRisk = participants.filter(
+  const mediumRisk = allParticipants.filter(
     (participant) => participant.risk_level === "medium"
   ).length;
 
-  const highRisk = participants.filter(
+  const highRisk = allParticipants.filter(
     (participant) => participant.risk_level === "high" || participant.risk_level === "critical"
   ).length;
 
@@ -29,6 +36,8 @@ export default async function DashboardPage() {
         <p className="mt-2 text-gray-600">
           View provider records and review fraud risk results.
         </p>
+
+        <RiskLevelFilter />
       </div>
 
       {/* Risk Summary */}
@@ -65,7 +74,14 @@ export default async function DashboardPage() {
         </div>
 
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center text-gray-400">
-        <PanelistList/>
+        <PanelistList riskLevel={riskLevel} />
+        </div>
+
+        <div className="mt-6">
+          <p className="text-sm text-gray-600">
+            Showing {participants.length} provider(s)
+            {riskLevel !== "all" ? ` with ${riskLevel} risk.` : "."}
+          </p>
         </div>
       </div>
     </div>
