@@ -11,7 +11,7 @@ export default function RootLayout({
       <body className="bg-gray-100">
         <Navigation />
 
-        <main className="min-h-screen md:ml-64">{children}</main>
+        <main className="min-h-screen min-w-0 md:ml-64">{children}</main>
       </body>
     </html>
   );
