@@ -68,6 +68,7 @@ export async function saveParticipants(
                 `
                 INSERT INTO panelists (
                 upload_id,
+                reviewed_by_user_id,
                 first_name,
                 last_name,
                 email,
@@ -92,12 +93,14 @@ export async function saveParticipants(
                 $9,
                 $10,
                 $11,
-                $12
+                $12,
+                $13
             )
                 RETURNING panelist_id
                 `,
             [
                 uploadId,
+                userId,
                 row.first_name,
                 row.last_name,
                 row.email,

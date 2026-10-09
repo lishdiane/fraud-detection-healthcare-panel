@@ -9,7 +9,6 @@ export default function ExcelPage() {
     const [rows, setRows] = useState<ExcelRow[]>([]);
     const [errors, setErrors] = useState<string[]>([]);
     const [fileName, setFileName] = useState("");
-    const [isSaving, setIsSaving] = useState(false);
     const [saveMessage, setSaveMessage] = useState("");
 
     async function handleFileUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -46,17 +45,17 @@ export default function ExcelPage() {
         }
 
         setRows(result.data);
+        await handleSaveToDatabase(result.data, file.name);
     }
 
-    async function handleSaveToDatabase() {
-        if (rows.length === 0) {
+    async function handleSaveToDatabase(uploadRows: ExcelRow[], uploadFileName: string) {
+        if (uploadRows.length === 0) {
             return;
         }
 
-        setIsSaving(true);
         setSaveMessage("");
 
-        const cleanRows: ExcelUploadRow[] = rows.map((row) => ({
+        const cleanRows: ExcelUploadRow[] = uploadRows.map((row) => ({
             first_name: String(row.first_name ?? ""),
             last_name: String(row.last_name ?? ""),
             email: String(row.email ?? ""),
@@ -73,7 +72,7 @@ export default function ExcelPage() {
 
         const result = await uploadExcelData(
             cleanRows,
-            String(fileName)
+            uploadFileName
         );
 
         if (result.success) {
@@ -85,8 +84,6 @@ export default function ExcelPage() {
                 result.error ?? "Couldn't save the Excel data."
             );
         }
-
-        setIsSaving(false);
     }
 
     return (
@@ -159,15 +156,6 @@ export default function ExcelPage() {
                         <h2 className="mt-6 text-lg font-semibold text-gray-900">
                             Data Preview
                         </h2>
-
-                        <button
-                        type="button"
-                        onClick={handleSaveToDatabase}
-                        disabled={isSaving}
-                        className="mt-6 rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:cursor-notallowed disabled:opacity-50"
-                        >
-                            {isSaving ? "Saving..." : "Save to Database"}
-                        </button>
 
                         {saveMessage && (
                             <p className="mt-3 text-sm text-gray-700">
