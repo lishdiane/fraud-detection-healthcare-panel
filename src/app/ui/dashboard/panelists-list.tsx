@@ -3,8 +3,12 @@ import ReviewStatusSelect from "./ReviewStatusSelect";
 import FlagsModal from "./FlagsModal";
 
 
-export default async function PanelistList() {
-    const panelists = await fetchPanelists();
+export default async function PanelistList({
+    riskLevel,
+    }: {
+        riskLevel?: string;
+    }) {
+    const panelists = await fetchPanelists(riskLevel);
 
     // Early return for empty state
     if (!panelists || panelists.length === 0) {
