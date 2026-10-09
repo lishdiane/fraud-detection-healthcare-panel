@@ -29,6 +29,7 @@ export default function Navigation() {
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -39,7 +40,7 @@ export default function Navigation() {
         </span>
       </div>
 
-      {/* Mobile Overlay */}
+
       {menuOpen && (
         <button
           type="button"
@@ -52,7 +53,7 @@ export default function Navigation() {
       {/* Sidebar */}
       <aside
         id="mobile-navigation"
-        className={`fixed left-0 top-0 z-50 flex h-dvh w-64 flex-col bg-slate-900 text-white transition-transform duration-200 md:translate-x-0 ${
+        className={`fixed left-0 top-0 z-50 flex h-dvh w-64 flex-col bg-slate-900 text-white transition-transform duration-200 ease-in-out md:translate-x-0 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -64,6 +65,7 @@ export default function Navigation() {
             Fraud Detection
           </h1>
 
+          {/* Mobile Close Button */}
           <button
             type="button"
             onClick={() => setMenuOpen(false)}
@@ -89,15 +91,15 @@ export default function Navigation() {
           </Link>
 
           <Link
-            href="/csv"
+            href="/upload"
             onClick={() => setMenuOpen(false)}
             className={`rounded-lg px-4 py-3 text-sm font-medium transition ${
-              pathname === "/csv"
+              pathname === "/upload"
                 ? "bg-blue-500/80 text-white"
                 : "text-slate-200 hover:bg-slate-800 hover:text-white"
             }`}
           >
-            Upload CSV
+            Upload Files
           </Link>
         </nav>
 
