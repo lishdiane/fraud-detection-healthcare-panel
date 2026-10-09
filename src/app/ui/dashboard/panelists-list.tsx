@@ -6,6 +6,34 @@ import FlagsModal from "./FlagsModal";
 export default async function PanelistList() {
     const panelists = await fetchPanelists();
 
+    // Early return for empty state
+    if (!panelists || panelists.length === 0) {
+        return (
+            <div className="mt-6 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 p-12 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
+                    <svg
+                        className="h-6 w-6 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                        />
+                    </svg>
+                </div>
+                <h3 className="mt-2 text-sm font-semibold text-gray-900">No panelists found</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                    You haven't uploaded any panelist data yet. Upload a CSV file to begin fraud evaluation.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
@@ -87,12 +115,6 @@ export default async function PanelistList() {
                                 <th scope="col" className="px-3 py-3 font-medium">
                                     Specialty
                                 </th>
-                                <th scope="col" className="px-3 py-3 font-medium">
-                                    City
-                                </th>
-                                <th scope="col" className="px-3 py-5 font-medium">                                    
-                                    Email
-                                </th>
                                 <th scope="col" className="px-3 py-5 font-medium">                                    
                                     Risk Score
                                 </th>
@@ -119,15 +141,8 @@ export default async function PanelistList() {
                                     <td className="whitespace-nowrap px-3 py-3">
                                         <p>{panelist.npi_number}</p>
                                     </td>
-                                    <td className="whitespace-nowrap px-3 py-3">
+                                    <td className="whitespace px-3 py-3">
                                         <p>{panelist.specialty}</p>
-                                    </td>
-                                    <td className="whitespace-nowrap px-3 py-3">
-                                        <p>{panelist.city}</p>
-                                    </td>
-                                    
-                                    <td className="whitespace-nowrap px-3 py-3">
-                                        <p>{panelist.email}</p>                                    
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         <p>{panelist.risk_score}</p>

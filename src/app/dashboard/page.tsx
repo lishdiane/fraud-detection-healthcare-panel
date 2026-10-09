@@ -1,6 +1,7 @@
 import requireAuth from "../../lib/users/requireAuth";
 import { getDashboardParticipants } from "../../lib/database/dashboardData";
 import PanelistList from "../ui/dashboard/panelists-list"
+import VerifyGeoButton from "../ui/dashboard/verify-geo-button";
 
 
 export default async function DashboardPage() {
@@ -63,7 +64,7 @@ export default async function DashboardPage() {
             Review imported providers and their fraud risk results.
           </p>
         </div>
-
+        <VerifyGeoButton/>
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center text-gray-400">
         <PanelistList/>
         </div>
