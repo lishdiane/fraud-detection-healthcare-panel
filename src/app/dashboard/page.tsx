@@ -1,11 +1,8 @@
 import requireAuth from "../../lib/users/requireAuth";
 import { getDashboardParticipants } from "../../lib/database/dashboardData";
 import PanelistList from "../ui/dashboard/panelists-list"
-<<<<<<< HEAD
 import VerifyGeoButton from "../ui/dashboard/verify-geo-button";
-=======
 import RiskLevelFilter from "../ui/dashboard/RiskLevelFilter";
->>>>>>> origin/main
 
 export default async function DashboardPage({
   searchParams,
