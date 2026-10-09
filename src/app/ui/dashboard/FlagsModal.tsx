@@ -9,6 +9,12 @@ interface Panelist {
   first_name: string;
   last_name: string;
   npi_number: string;
+  email: string;
+  specialty: string;
+  street_address: string;
+  city: string;
+  state: string;
+  postal_code: string;
   risk_score: number;
   risk_level: string;
 }
@@ -50,6 +56,12 @@ return (
           first_name: panelist.first_name,
           last_name: panelist.last_name,
           npi_number: panelist.npi_number,
+          email: panelist.email,
+          specialty: panelist.specialty,
+          street_address: panelist.street_address,
+          city: panelist.city,
+          state: panelist.state,
+          postal_code: panelist.postal_code,
           risk_score: panelist.risk_score,
           risk_level: panelist.risk_level,
           flags: flags,
