@@ -9,8 +9,8 @@ export async function verifyNpi(providerData): Promise<{
     if (npiData.result_count === 0) {
       return {
         npiValid: false,
-        nameMatch: false,
-        specialtyMatch: false,
+        nameMatch: true,
+        specialtyMatch: true,
       };
     }
 

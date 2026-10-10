@@ -90,7 +90,6 @@ export default function ExcelPage() {
         npi: String(row.npi ?? ""),
         specialty: String(row.specialty ?? ""),
         ip_address: String(row.ip_address ?? ""),
-        test_case: String(row.test_case ?? ""),
       }));
 
       // Save records and wait for backend processing
