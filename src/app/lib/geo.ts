@@ -187,3 +187,45 @@ export async function evaluatePanelistLocation(
     return evaluation;
 }
 
+/**
+ * Helper to detect local, private, loopback, or reserved test-net IPs
+ */
+export function isPrivateOrTestIP(ip: string): boolean {
+    if (!ip) return true;
+    
+    // Normalize and trim
+    const trimmed = ip.trim();
+
+    if (
+        trimmed === '127.0.0.1' || 
+        trimmed === 'localhost' || 
+        trimmed === '::1'
+    ) {
+        return true;
+    }
+    
+    // Check for standard private ranges and RFC 5737 Test-Net ranges
+    return (
+        trimmed.startsWith('10.') ||
+        trimmed.startsWith('192.168.') ||
+        trimmed.startsWith('172.16.') ||
+        trimmed.startsWith('172.17.') ||
+        trimmed.startsWith('172.18.') ||
+        trimmed.startsWith('172.19.') ||
+        trimmed.startsWith('172.20.') ||
+        trimmed.startsWith('172.21.') ||
+        trimmed.startsWith('172.22.') ||
+        trimmed.startsWith('172.23.') ||
+        trimmed.startsWith('172.24.') ||
+        trimmed.startsWith('172.25.') ||
+        trimmed.startsWith('172.26.') ||
+        trimmed.startsWith('172.27.') ||
+        trimmed.startsWith('172.28.') ||
+        trimmed.startsWith('172.29.') ||
+        trimmed.startsWith('172.30.') ||
+        trimmed.startsWith('172.31.') ||
+        trimmed.startsWith('198.51.100.') || // TEST-NET-2 (Bonnie Bennett's test IP range)
+        trimmed.startsWith('192.0.2.')     || // TEST-NET-1
+        trimmed.startsWith('203.0.113.')      // TEST-NET-3
+    );
+}

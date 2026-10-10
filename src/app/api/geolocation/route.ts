@@ -7,6 +7,10 @@ export async function POST() {
         const result = await processPanelistGeolocation(50);
         return NextResponse.json({
             success: true,
+            total: result.total,         // Total records evaluated
+            processed: result.processed, // Successful counts
+            failed: result.failed,       // Failed / skipped counts
+            failures: result.failures,   // Array of IP reasons
             message: `Processed ${result.processed} panelists.`,
         });
     } catch (error) {
