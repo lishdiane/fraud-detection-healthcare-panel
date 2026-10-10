@@ -1,5 +1,6 @@
 import pool from './db';
 import { evaluatePanelistLocation } from './geo';
+import { getSession } from "../../lib/users/sessions";
 
 interface PanelistRecord {
   panelist_id: number;
@@ -15,9 +16,20 @@ interface PanelistRecord {
  * updates geolocation fields, and records fraud flags.
  */
 
-export async function processPanelistGeolocation(limit: number = 50) {
-    const client = await pool.connect();
-    let processedCount = 0;
+export async function processPanelistGeolocation(limit: number = 50) : Promise <{processed :number}> {
+  const session = await getSession();
+
+    if (!session?.value) {
+        // Return an empty array if not logged in to match the expected return type
+        return {processed:0};
+    }
+
+  const userId = Number(session.value);
+  const client = await pool.connect();
+  let processedCount = 0;
+    
+
+    
 
     try {
       await client.query('BEGIN')
@@ -25,9 +37,9 @@ export async function processPanelistGeolocation(limit: number = 50) {
         const { rows: panelists } = await client.query<PanelistRecord>(`
           SELECT *
           FROM panelists
-          WHERE ip_latitude IS NULL AND ip_address IS NOT NULL
-          LIMIT $1
-        `, [limit]);
+          WHERE ip_latitude IS NULL AND ip_address IS NOT NULL AND reviewed_by_user_id = $1 
+          LIMIT $2
+        `, [userId, limit]);
         
         if (panelists.length === 0) {
             console.log('No pending panelists to evaluate.');
@@ -48,9 +60,6 @@ export async function processPanelistGeolocation(limit: number = 50) {
 
           // Skip database updates id the IP lookup failed completely
           if (evaluation.ip_longitude === undefined) continue;
-
-          // Begin DB Transaction to update record and attach flags
-          await client.query('BEGIN');
 
           // Update Panelist Geolocation Attributes
           await client.query(`
