@@ -15,14 +15,14 @@ let pool: Pool;
 if (isProduction) {
   pool = new Pool({
     connectionString,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: true },
   });
 } else {
   // Reuse global pool in development to prevent hot-reload from exhausting connections
   if (!global.postgresPool) {
     global.postgresPool = new Pool({
       connectionString,
-      ssl: isCloudDatabase ? { rejectUnauthorized: false } : false,
+      ssl: isCloudDatabase ? { rejectUnauthorized: true } : false,
     });
   }
   pool = global.postgresPool;
