@@ -17,7 +17,6 @@ const REQUIRED_COLUMNS = [
     "npi",
     "specialty",
     "ip_address",
-    "test_case",
 ];
 
 export function validateCSVFile(file: File): string[] {
@@ -122,11 +121,6 @@ export function validateCSVRows(rows: CSVRow[]): ValidationResult {
     if (!row.ip_address || row.ip_address.trim() === "") {
     errors.push(`Row ${rowNumber}: IP Address is required.`);
     }
-
-    if (!row.test_case || row.test_case.trim() === "") {
-    errors.push(`Row ${rowNumber}: Test case is required.`);
-    }
-
 });
 
     return {

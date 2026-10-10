@@ -15,7 +15,6 @@ export type ExcelUploadRow = {
     npi: string;
     specialty: string;
     ip_address: string;
-    test_case: string;
 };
 
 export async function uploadExcelData(rows:ExcelUploadRow[],
