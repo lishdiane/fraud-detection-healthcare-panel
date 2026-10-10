@@ -63,6 +63,7 @@ function checkIp(value?: string | null): string {
 
 export async function checkForDuplicates(
     participant: ParticipantForDuplicateCheck,
+    userId: number,
     excludePanelistId?: number,
     database: Pool | PoolClient = pool,
 ): Promise<DuplicateCheckResult> {
@@ -84,7 +85,9 @@ export async function checkForDuplicates(
             npi_number,
             ip_address
         FROM panelists
-`);
+        WHERE reviewed_by_user_id = $1
+        `,
+        [userId]);
 
 const matches: DuplicateMatch[] = [];
 

@@ -17,7 +17,6 @@ const REQUIRED_COLUMNS = [
     "npi",
     "specialty",
     "ip_address",
-    "test_case",
 ];
 
 export function validateExcelFile(file: File): string[] {

@@ -126,6 +126,7 @@ export async function saveParticipants(
             npi_number: row.npi,
             ip_address: row.ip_address,
         },
+        userId,
         panelistId,
         client
     );
