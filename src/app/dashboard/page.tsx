@@ -11,8 +11,8 @@ export default async function DashboardPage({
   const user = await requireAuth();
   const params = await searchParams;
   const riskLevel = params.risk ?? "all";
-  const participants = await getDashboardParticipants(riskLevel);
-  const allParticipants = await getDashboardParticipants();
+  const participants = await getDashboardParticipants(riskLevel, user.user_id);
+  const allParticipants = await getDashboardParticipants("all", user.user_id);
   const totalProviders = allParticipants.length;
 
   const lowRisk = allParticipants.filter(
