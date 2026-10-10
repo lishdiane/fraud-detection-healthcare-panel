@@ -1,5 +1,5 @@
 import pool from './db';
-import { evaluatePanelistLocation } from './geo';
+import { evaluatePanelistLocation, isPrivateOrTestIP } from './geo';
 import { getSession } from "../../lib/users/sessions";
 
 interface PanelistRecord {
@@ -16,19 +16,27 @@ interface PanelistRecord {
  * updates geolocation fields, and records fraud flags.
  */
 
-export async function processPanelistGeolocation(limit: number = 50) : Promise <{processed :number}> {
+export async function processPanelistGeolocation(limit: number = 50) : Promise <{
+  total: number;
+  processed :number;
+  sucessprocessed: number;
+  failed: number;
+  failures: Array<{ip: string; reason: string}>;
+}> {
   const session = await getSession();
 
     if (!session?.value) {
         // Return an empty array if not logged in to match the expected return type
-        return {processed:0};
+        return { total: 0, processed: 0, sucessprocessed: 0, failed: 0, failures: [] };;
     }
 
   const userId = Number(session.value);
   const client = await pool.connect();
   let processedCount = 0;
-    
-
+  
+  let sucessprocessed = 0;
+  let failed = 0;
+  const failures: Array<{ ip: string; reason: string }> = [];
     
 
     try {
@@ -40,14 +48,16 @@ export async function processPanelistGeolocation(limit: number = 50) : Promise <
           WHERE ip_latitude IS NULL AND ip_address IS NOT NULL AND reviewed_by_user_id = $1 
           LIMIT $2
         `, [userId, limit]);
+        const total = panelists.length;
         
-        if (panelists.length === 0) {
+        if (total === 0) {
             console.log('No pending panelists to evaluate.');
-            return {processed: 0};
+            return { total: 0, processed: 0, sucessprocessed: 0, failed: 0, failures: [] };
 
         }
 
         console.log(`Processing ${panelists.length} panelists for geolocation...`);
+        
 
         for (const panelist of panelists) {
           // Evaluate IP location against practice postal code using ipgeolocation.io
@@ -59,9 +69,20 @@ export async function processPanelistGeolocation(limit: number = 50) : Promise <
           );
 
           // Skip database updates id the IP lookup failed completely
-          if (evaluation.ip_longitude === undefined) continue;
+          // Handle completely failed lookups (e.g. API down or invalid IP payload)
+          if (evaluation.ip_longitude === undefined || evaluation.    ip_latitude === undefined) {
+            failed++;
+            failures.push({
+              ip: panelist.ip_address,
+              reason: isPrivateOrTestIP(panelist.ip_address)
+                ? 'Private, loopback, or reserved test-net IP'
+                : 'Geolocation API returned null coordinates or     failed',
+            });
+            continue;
+          }
 
           // Update Panelist Geolocation Attributes
+
           await client.query(`
             UPDATE panelists
             SET 
@@ -83,6 +104,10 @@ export async function processPanelistGeolocation(limit: number = 50) : Promise <
             evaluation.distance_to_practice_miles ?? null,
             panelist.panelist_id
           ]);
+
+          sucessprocessed++;         
+
+          
 
           // Insert triggered flags into panelist_flags
           for (const flag of evaluation.flags_to_raise) {
@@ -121,7 +146,13 @@ export async function processPanelistGeolocation(limit: number = 50) : Promise <
         // Commit all updates at the end of the batch
         await client.query('COMMIT');
 
-        return {processed: processedCount};
+        return {
+          processed: processedCount,
+          sucessprocessed,
+          failed,
+          failures,
+          total,
+        };
     } catch (error) {
         await client.query('ROLLBACK');
         console.error('Error processing geolocations:', error);
