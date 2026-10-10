@@ -31,6 +31,7 @@ export default function FlagsModal({ panelist }: FlagsModalProps) {
   const handleOpen = async () => {
     setIsOpen(true);
     setLoading(true);
+
     try {
       const data = await fetchFlagsByPanelistId(panelist.panelist_id);
       setFlags(data);
@@ -41,34 +42,36 @@ export default function FlagsModal({ panelist }: FlagsModalProps) {
     }
   };
 
-return (
-  <>
-    <button
-      onClick={handleOpen}
-      className="text-blue-600 hover:underline font-medium text-xs md:text-sm"
-    >
-      See flags
-    </button>
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleOpen}
+        disabled={loading}
+        className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-wait disabled:opacity-50"
+      >
+        {loading ? "Loading..." : "More Details"}
+      </button>
 
-    {isOpen && !loading && (
-      <FraudResultsModal
-        provider={{
-          first_name: panelist.first_name,
-          last_name: panelist.last_name,
-          npi_number: panelist.npi_number,
-          email: panelist.email,
-          specialty: panelist.specialty,
-          street_address: panelist.street_address,
-          city: panelist.city,
-          state: panelist.state,
-          postal_code: panelist.postal_code,
-          risk_score: panelist.risk_score,
-          risk_level: panelist.risk_level,
-          flags: flags,
-        }}
-        onClose={() => setIsOpen(false)}
-      />
-    )}
-  </>
-);
+      {isOpen && !loading && (
+        <FraudResultsModal
+          provider={{
+            first_name: panelist.first_name,
+            last_name: panelist.last_name,
+            npi_number: panelist.npi_number,
+            email: panelist.email,
+            specialty: panelist.specialty,
+            street_address: panelist.street_address,
+            city: panelist.city,
+            state: panelist.state,
+            postal_code: panelist.postal_code,
+            risk_score: panelist.risk_score,
+            risk_level: panelist.risk_level,
+            flags: flags,
+          }}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
+    </>
+  );
 }
