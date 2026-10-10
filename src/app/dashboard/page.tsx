@@ -1,14 +1,14 @@
 import requireAuth from "../../lib/users/requireAuth";
 import { getDashboardParticipants } from "../../lib/database/dashboardData";
-import PanelistList from "../ui/dashboard/panelists-list"
+import PanelistList from "../ui/dashboard/panelists-list";
 import VerifyGeoButton from "../ui/dashboard/verify-geo-button";
 import RiskLevelFilter from "../ui/dashboard/RiskLevelFilter";
 
 export default async function DashboardPage({
   searchParams,
-  }: {
-    searchParams: Promise<{ risk?: string }>;
-  }) {
+}: {
+  searchParams: Promise<{ risk?: string }>;
+}) {
   const user = await requireAuth();
   const params = await searchParams;
   const riskLevel = params.risk ?? "all";
@@ -17,15 +17,19 @@ export default async function DashboardPage({
   const totalProviders = allParticipants.length;
 
   const lowRisk = allParticipants.filter(
-    (participant) => participant.risk_level === "low"
+    (participant) => participant.risk_level === "low",
   ).length;
 
   const mediumRisk = allParticipants.filter(
-    (participant) => participant.risk_level === "medium"
+    (participant) => participant.risk_level === "medium",
   ).length;
 
   const highRisk = allParticipants.filter(
-    (participant) => participant.risk_level === "high" || participant.risk_level === "critical"
+    (participant) => participant.risk_level === "high",
+  ).length;
+
+  const criticalRisk = allParticipants.filter(
+    (participant) => participant.risk_level === "critical",
   ).length;
 
   return (
@@ -42,10 +46,12 @@ export default async function DashboardPage({
       </div>
 
       {/* Risk Summary */}
-      <div className="mb-8 grid gap-6 md:grid-cols-4">
+      <div className="mb-8 grid gap-6 md:grid-cols-5">
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Total Providers</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">{totalProviders}</p>
+          <p className="mt-2 text-3xl font-bold text-slate-900">
+            {totalProviders}
+          </p>
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
@@ -60,7 +66,12 @@ export default async function DashboardPage({
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-medium text-gray-500">High Risk</p>
-          <p className="mt-2 text-3xl font-bold text-red-500">{highRisk}</p>
+          <p className="mt-2 text-3xl font-bold text-orange-500">{highRisk}</p>
+        </div>
+
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <p className="text-sm font-medium text-gray-500">Critical Risk</p>
+          <p className="mt-2 text-3xl font-bold text-red-500">{criticalRisk}</p>
         </div>
       </div>
 
@@ -73,9 +84,11 @@ export default async function DashboardPage({
             Review imported providers and their fraud risk results.
           </p>
         </div>
-        <VerifyGeoButton/>
+
+        <VerifyGeoButton />
+
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center text-gray-400">
-        <PanelistList riskLevel={riskLevel} />
+          <PanelistList riskLevel={riskLevel} />
         </div>
 
         <div className="mt-6">
